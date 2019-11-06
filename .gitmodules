@@ -1,0 +1,3 @@
+[submodule "pytorch-conv4d"]
+	path = pytorch-conv4d
+	url = git@github.com:timothygebhard/pytorch-conv4d.git
