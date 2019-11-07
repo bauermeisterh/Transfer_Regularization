@@ -1,3 +1,6 @@
 [submodule "pytorch-conv4d"]
 	path = pytorch-conv4d
 	url = git@github.com:timothygebhard/pytorch-conv4d.git
+[submodule "LightFieldAngularSR"]
+	path = LightFieldAngularSR
+	url = git@github.com:angularsr/LightFieldAngularSR.git
