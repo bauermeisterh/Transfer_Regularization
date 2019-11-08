@@ -125,7 +125,7 @@ class Conv4d_strang(nn.Module):
         x_res = torch.empty(shape[0] * nx * ny, shape[1], shape[2], shape[3], 2, 2)
         for i in range(nx):
             for j in range(ny):
-                x_res[(j*nx+i)*shape[0]:(j*nx+i+1)*shape[0], ...] = x[..., i*2:(i+1)*2, j*2:(j+1)*2]
+                x_res[(i*ny+j)*shape[0]:(i*ny+j+1)*shape[0], ...] = x[..., i*2:(i+1)*2, j*2:(j+1)*2]
         
         x_res = self.conv(x_res)
         
@@ -149,4 +149,5 @@ def reshape(x_small, x_large):
     x_con[..., 8:56] = x_res[..., 6:54]
     x_con[..., 57:63] = x_res[..., 54:]
     x_con = x_con.reshape(shape[0], 1, shape[2], shape[3], 8, 8)
+    x_con = x_con.permute(0, 1, 2, 3, 5, 4)
     return x_con
