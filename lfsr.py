@@ -11,13 +11,13 @@ class LFSR(nn.Module):
     def __init__(self):
         super().__init__()
         self.vsn = nn.Sequential(Conv4d(1, 64, (3, 3, 3, 3), (1, 1, 1, 1, )),
-                                 nn.ReLU(),
+                                 nn.LeakyReLU(0.2),
                                  *[SAAC() for _ in range(16)],
                                  Conv4d(64, 60, (3, 3, 2, 2), (0, 0, 1, 1)))
         self.vrn = nn.Sequential(Conv4d_strang(1, 16, (3, 3, 2, 2), (0, 0, 1, 1)),
-                                 nn.ReLU(),
+                                 nn.LeakyReLU(0.2),
                                  Conv4d_strang(16, 64, (3, 3, 2, 2), (0, 0, 1, 1)),
-                                 nn.ReLU(),
+                                 nn.LeakyReLU(0.2),
                                  Conv4d(64, 60, (3, 3, 2, 2), (0, 0, 1, 1)))
         
         
@@ -81,7 +81,7 @@ class SAAC(nn.Module):
         super().__init__()
         self.conv_s = Conv4d(64, 64, (3, 3, 1, 1), (0, 0, 1, 1))
         self.conv_a = Conv4d(64, 64, (1, 1, 3, 3), (1, 1))
-        self.relu = nn.ReLU()
+        self.relu = nn.LeakyReLU(0.2)
         
     def forward(self, x):
         x = self.conv_s(x)
