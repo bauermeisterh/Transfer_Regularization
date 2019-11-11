@@ -28,9 +28,11 @@ class LFSR(nn.Module):
                 
         x_vrn = self.vrn(x_con)
         
-        x_con = reshape(x, x_vsn + x_vrn)
+        #x_con = reshape(x, x_vsn + x_vrn)
         
-        return x_con
+        #return x_con
+        
+        return x_vsn + x_vrn
         
         
     
@@ -122,7 +124,7 @@ class Conv4d_strang(nn.Module):
         nx = shape[4]//2
         ny = shape[5]//2
         
-        x_res = torch.empty(shape[0] * nx * ny, shape[1], shape[2], shape[3], 2, 2)
+        x_res = torch.empty(shape[0] * nx * ny, shape[1], shape[2], shape[3], 2, 2, device=x.device)
         for i in range(nx):
             for j in range(ny):
                 x_res[(i*ny+j)*shape[0]:(i*ny+j+1)*shape[0], ...] = x[..., i*2:(i+1)*2, j*2:(j+1)*2]
@@ -140,7 +142,7 @@ def reshape(x_small, x_large):
     x_res = x_large.permute(0, 2, 3, 1, 4, 5)
     x_res = x_res.reshape(shape[0], 1, shape[2], shape[3], 60)
     
-    x_con = torch.empty(shape[0], 1, shape[2], shape[3], 64)
+    x_con = torch.empty(shape[0], 1, shape[2], shape[3], 64, device=x_small.device)
     x_con[..., 0] = x_small[..., 0, 0]
     x_con[..., 7] = x_small[..., 1, 0]
     x_con[..., 56] = x_small[..., 0, 1]
